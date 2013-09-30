@@ -1,8 +1,8 @@
-package controle;
+package control;
 
 import java.util.ArrayList;
-import modelo.Atirador;
-import modelo.Prova;
+import model.Atirador;
+import model.Prova;
 
 public class ControleAtirador {
     
