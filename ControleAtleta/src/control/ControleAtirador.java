@@ -30,6 +30,15 @@ public class ControleAtirador {
     public ArrayList<Atirador> listaAtirador(){
         return this.listaAtirador;
     }
+    public ArrayList<Atirador> listaAtirador(String nome){
+        ArrayList<Atirador> atiradores = null;
+        for(Atirador a : listaAtirador){
+            if(a.getNome().contains(nome)){
+                atiradores.add(a);
+            }
+        }
+        return atiradores;
+    }
     
     
 }
