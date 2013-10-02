@@ -18,6 +18,7 @@ public class Atirador extends Atleta{
     private ArrayList<Premiacao> premiacoes;
     private ArrayList<Sequencia> melhoresSequencias;
     private char posicao; //Destro(D), Canhoto(C)
+    private char classe; //SH1(N),SH2(P)
     
     public Atirador(String nome) {
         super(nome);
@@ -53,6 +54,14 @@ public class Atirador extends Atleta{
 
     public void setPosicao(char posicao) {
         this.posicao = posicao;
+    }
+
+    public char getClasse() {
+        return classe;
+    }
+
+    public void setClasse(char classe) {
+        this.classe = classe;
     }
     
     
