@@ -5,13 +5,15 @@
 package view;
 
 import control.ControleAtirador;
+import controleatleta.Premiacao;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import model.Atirador;
+import model.Prova;
+import model.Sequencia;
 
 /**
  *
@@ -26,12 +28,15 @@ public class CadastroAtirador extends javax.swing.JFrame {
     DefaultListModel jModelProvas;
     DefaultListModel jModelPremiacao;
     DefaultListModel jModelSequencias;
+    DefaultListModel jModelDefault;
     
     ControleAtirador controle;
     public CadastroAtirador() {
         initComponents();
+        this.setEditable(false);
         CustomListCellRenderer renderer = new CustomListCellRenderer();
         jListAtiradores.setCellRenderer(renderer);
+        this.jModelDefault = new DefaultListModel();
         this.jModelAtiradores = new DefaultListModel();
         this.jListAtiradores.setModel(jModelAtiradores);
         this.jModelProvas = new DefaultListModel();
@@ -47,11 +52,11 @@ public class CadastroAtirador extends javax.swing.JFrame {
         a.getEndereco().setLogradouro("Teste");
         controle.addAtirador(a);
         Atirador b = new Atirador("André Bernardes");
-        
         controle.addAtirador(b);
-        jModelAtiradores.addElement(a);
-        jModelAtiradores.addElement(b);
         
+        for(Atirador at : controle.listaAtirador()){
+        jModelAtiradores.addElement(at);
+        }
         //setList(jListAtiradores, controle.listaAtirador());
         jListAtiradores.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -233,19 +238,17 @@ public class CadastroAtirador extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jTextoTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonRemoveTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonAddTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(jButtonRemoveTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonAddTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
@@ -277,7 +280,7 @@ public class CadastroAtirador extends javax.swing.JFrame {
                             .addComponent(jButtonRemoveTelefone)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4)))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel28)
@@ -571,8 +574,18 @@ public class CadastroAtirador extends javax.swing.JFrame {
         jComboBoxSexo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Masculino", "Feminino" }));
 
         jButtonAdicionar.setText("Adicionar");
+        jButtonAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAdicionarActionPerformed(evt);
+            }
+        });
 
         jButtonEditar.setText("Editar");
+        jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarActionPerformed(evt);
+            }
+        });
 
         jButtonSalvar.setText("Salvar");
 
@@ -681,8 +694,34 @@ public class CadastroAtirador extends javax.swing.JFrame {
 private void jButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimparActionPerformed
     this.clearFields();
 }//GEN-LAST:event_jButtonLimparActionPerformed
+
+private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
+    this.setEditable(true);
+}//GEN-LAST:event_jButtonEditarActionPerformed
+
+private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarActionPerformed
+    this.clearFields();
+    this.setEditable(true);
+}//GEN-LAST:event_jButtonAdicionarActionPerformed
     private void jListAtiradoresActionPerformed(ListSelectionEvent evt) {
         Atirador atirador = (Atirador)getSelected(jListAtiradores);
+        /*
+        if(!atirador.getProvas().isEmpty()){
+        for(Prova p : atirador.getProvas()){
+            jModelProvas.addElement(p);
+        }
+        }
+        if(!atirador.getPremiacoes().isEmpty()){
+        for(Premiacao p : atirador.getPremiacoes()){
+           jModelPremiacao.addElement(p);
+        }
+        }
+        if(!atirador.getMelhoresSequencias().isEmpty()){
+        for(Sequencia s : atirador.getMelhoresSequencias()){
+           jModelProvas.addElement(s);
+        }
+        }
+         */
         jTextoNome.setText(atirador.getNome());
         jTextoAltura.setText(String.valueOf(atirador.getAltura()));
         jTextoCpf.setText(atirador.getCpf());
@@ -803,10 +842,6 @@ private void jButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         jTextoCep.setEditable(op);
         jTextoEstado.setEditable(op);
         jTextoNumero.setEditable(op);
-        jComboBoxSexo.setEditable(op);
-        jComboBoxProva.setEditable(op);
-        jComboBoxClasse.setEditable(op);
-        jComboBoxPosicao.setEditable(op);
         jTextoAno.setEditable(op);
         jTextoArma.setEditable(op);
         jTextoDistancia.setEditable(op);
@@ -844,6 +879,9 @@ private void jButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         jTextoModo.setText("");
         jTextoTelefone.setText("");
         jTextoTitulo.setText("");
+        jListPremiacao.setModel(jModelDefault);
+        jListProvas.setModel(jModelDefault);
+        jListSequencias.setModel(jModelDefault);
         
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
