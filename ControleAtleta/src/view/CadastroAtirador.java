@@ -23,15 +23,26 @@ public class CadastroAtirador extends javax.swing.JFrame {
      * Creates new form CadastroAtirador
      */
     DefaultListModel jModelAtiradores;
+    DefaultListModel jModelProvas;
+    DefaultListModel jModelPremiacao;
+    DefaultListModel jModelSequencias;
     
     ControleAtirador controle;
     public CadastroAtirador() {
         initComponents();
         this.jModelAtiradores = new DefaultListModel();
         this.jListAtiradores.setModel(jModelAtiradores);
+        this.jModelProvas = new DefaultListModel();
+        this.jListProvas.setModel(jModelProvas);
+        this.jModelPremiacao = new DefaultListModel();
+        this.jListPremiacao.setModel(jModelPremiacao);
+        this.jModelSequencias = new DefaultListModel();
+        this.jListSequencias.setModel(jModelSequencias);
+        
         controle = new ControleAtirador();
         Atirador a = new Atirador("nome");
         a.setRg("321");
+        a.getEndereco().setLogradouro("Teste");
         controle.addAtirador(a);
         Atirador b = new Atirador("André Bernardes");
         
@@ -86,7 +97,7 @@ public class CadastroAtirador extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jTextoLogradouro = new javax.swing.JTextField();
         jTextoNumero = new javax.swing.JTextField();
-        jTextBairro = new javax.swing.JTextField();
+        jTextoBairro = new javax.swing.JTextField();
         jTextoCidade = new javax.swing.JTextField();
         jTextoEstado = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -139,11 +150,6 @@ public class CadastroAtirador extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jListAtiradores.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "A", "B", "C" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jListAtiradores.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jListAtiradores);
 
@@ -280,7 +286,7 @@ public class CadastroAtirador extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextoBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -328,7 +334,7 @@ public class CadastroAtirador extends javax.swing.JFrame {
                         .addGap(11, 11, 11)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
-                            .addComponent(jTextBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTextoBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel16)
@@ -624,14 +630,15 @@ public class CadastroAtirador extends javax.swing.JFrame {
                         .addGroup(jPainel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(jComboBoxSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                         .addGroup(jPainel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonAdicionar)
                             .addComponent(jButtonEditar)
                             .addComponent(jButtonSalvar)
                             .addComponent(jButtonLimpar))
                         .addGap(23, 23, 23)))
-                .addComponent(jTabbedPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -668,7 +675,14 @@ public class CadastroAtirador extends javax.swing.JFrame {
         jTextoNomePai.setText(atirador.getNomePai());
         jTextoRg.setText(atirador.getRg());
         jTextoPeso.setText(String.valueOf(atirador.getPeso()));
-        
+        jTextoLogradouro.setText(atirador.getEndereco().getLogradouro());
+        jTextoComplemento.setText(atirador.getEndereco().getComplemento());
+        jTextoCidade.setText(atirador.getEndereco().getCidade());
+        jTextoPais.setText(atirador.getEndereco().getPais());
+        jTextoBairro.setText(atirador.getEndereco().getBairro());
+        jTextoCep.setText(atirador.getEndereco().getCep());
+        jTextoEstado.setText(atirador.getEndereco().getEstado());
+        jTextoNumero.setText(atirador.getEndereco().getNumero());
         
     }
     
@@ -781,10 +795,10 @@ public class CadastroAtirador extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextBairro;
     private javax.swing.JTextField jTextoAltura;
     private javax.swing.JTextField jTextoAno;
     private javax.swing.JTextField jTextoArma;
+    private javax.swing.JTextField jTextoBairro;
     private javax.swing.JTextField jTextoCep;
     private javax.swing.JTextField jTextoCidade;
     private javax.swing.JTextField jTextoComplemento;
