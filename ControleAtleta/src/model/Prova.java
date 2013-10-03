@@ -1,12 +1,10 @@
 package model;
 
-import java.util.ArrayList;
 
 public class Prova {
     private int distancia;
     private String arma;
     private String modo;
-    private ArrayList<Atirador> atiradores;
 
     public Prova() {
     }
@@ -41,12 +39,10 @@ public class Prova {
         this.modo = modo;
     }
 
-    public ArrayList<Atirador> getAtiradores() {
-        return atiradores;
-    }
 
-    public void setAtiradores(ArrayList<Atirador> atiradores) {
-        this.atiradores = atiradores;
+    @Override
+    public String toString() {
+        return  distancia + "m " + arma + " " + modo;
     }
    
     

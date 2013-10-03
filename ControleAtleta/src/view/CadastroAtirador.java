@@ -5,10 +5,17 @@
 package view;
 
 import control.ControleAtirador;
+import controleatleta.Endereco;
 import controleatleta.Premiacao;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import model.Atirador;
@@ -24,46 +31,20 @@ public class CadastroAtirador extends javax.swing.JFrame {
     /**
      * Creates new form CadastroAtirador
      */
-    DefaultListModel jModelAtiradores;
-    DefaultListModel jModelProvas;
-    DefaultListModel jModelPremiacao;
-    DefaultListModel jModelSequencias;
-    DefaultListModel jModelDefault;
+    private DefaultListModel jModelAtiradores;
+    private DefaultListModel jModelProvas;
+    private DefaultListModel jModelPremiacao;
+    private DefaultListModel jModelSequencias;
+    private DefaultListModel jModelTelefones;
+    private DefaultListModel jModelDefault;
+    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private ComboBoxModel emptyModel;
+    private int saveMode;
+    private ControleAtirador controle;
     
-    ControleAtirador controle;
     public CadastroAtirador() {
         initComponents();
-        this.setEditable(false);
-        CustomListCellRenderer renderer = new CustomListCellRenderer();
-        jListAtiradores.setCellRenderer(renderer);
-        this.jModelDefault = new DefaultListModel();
-        this.jModelAtiradores = new DefaultListModel();
-        this.jListAtiradores.setModel(jModelAtiradores);
-        this.jModelProvas = new DefaultListModel();
-        this.jListProvas.setModel(jModelProvas);
-        this.jModelPremiacao = new DefaultListModel();
-        this.jListPremiacao.setModel(jModelPremiacao);
-        this.jModelSequencias = new DefaultListModel();
-        this.jListSequencias.setModel(jModelSequencias);
-        
-        controle = new ControleAtirador();
-        Atirador a = new Atirador("nome");
-        a.setRg("321");
-        a.getEndereco().setLogradouro("Teste");
-        controle.addAtirador(a);
-        Atirador b = new Atirador("André Bernardes");
-        controle.addAtirador(b);
-        
-        for(Atirador at : controle.listaAtirador()){
-        jModelAtiradores.addElement(at);
-        }
-        //setList(jListAtiradores, controle.listaAtirador());
-        jListAtiradores.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                jListAtiradoresActionPerformed(e);
-            }
-        });
+        initMoreComponents();
     }
 
     /**
@@ -103,7 +84,7 @@ public class CadastroAtirador extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jButtonRemoveTelefone = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
+        jListTelefones = new javax.swing.JList();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jComboBoxClasse = new javax.swing.JComboBox();
@@ -178,6 +159,11 @@ public class CadastroAtirador extends javax.swing.JFrame {
         jLabel3.setText("Telefone");
 
         jButtonAddTelefone.setText("+");
+        jButtonAddTelefone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddTelefoneActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("CPF");
 
@@ -190,8 +176,13 @@ public class CadastroAtirador extends javax.swing.JFrame {
         jLabel11.setText("Peso");
 
         jButtonRemoveTelefone.setText("-");
+        jButtonRemoveTelefone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoveTelefoneActionPerformed(evt);
+            }
+        });
 
-        jScrollPane4.setViewportView(jList2);
+        jScrollPane4.setViewportView(jListTelefones);
 
         jLabel27.setText("Posição");
 
@@ -236,11 +227,11 @@ public class CadastroAtirador extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextoTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonRemoveTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextoTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonAddTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButtonAddTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jButtonRemoveTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -276,9 +267,9 @@ public class CadastroAtirador extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonAddTelefone)
+                            .addComponent(jLabel3)
                             .addComponent(jButtonRemoveTelefone)
-                            .addComponent(jLabel3))
+                            .addComponent(jButtonAddTelefone))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -336,12 +327,8 @@ public class CadastroAtirador extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jTextoComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jTextoPais, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addComponent(jTextoComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextoPais, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTextoCep, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12))
         );
@@ -396,8 +383,18 @@ public class CadastroAtirador extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jListProvas);
 
         jButtonRemoveProva.setText("-");
+        jButtonRemoveProva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoveProvaActionPerformed(evt);
+            }
+        });
 
         jButtonAddProva.setText("+");
+        jButtonAddProva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddProvaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -417,8 +414,8 @@ public class CadastroAtirador extends javax.swing.JFrame {
                     .addComponent(jTextoModo))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonRemoveProva, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
-                    .addComponent(jButtonAddProva, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE))
+                    .addComponent(jButtonRemoveProva, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                    .addComponent(jButtonAddProva, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
@@ -458,8 +455,18 @@ public class CadastroAtirador extends javax.swing.JFrame {
         jLabel23.setText("Ano");
 
         jButtonRemovePremiacao.setText("-");
+        jButtonRemovePremiacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemovePremiacaoActionPerformed(evt);
+            }
+        });
 
         jButtonAddPremiacao.setText("+");
+        jButtonAddPremiacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddPremiacaoActionPerformed(evt);
+            }
+        });
 
         jScrollPane5.setViewportView(jListPremiacao);
 
@@ -516,8 +523,18 @@ public class CadastroAtirador extends javax.swing.JFrame {
         jScrollPane6.setViewportView(jListSequencias);
 
         jButtonAddSequencia.setText("+");
+        jButtonAddSequencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddSequenciaActionPerformed(evt);
+            }
+        });
 
         jButtonRemoveSequencia.setText("-");
+        jButtonRemoveSequencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoveSequenciaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -588,6 +605,11 @@ public class CadastroAtirador extends javax.swing.JFrame {
         });
 
         jButtonSalvar.setText("Salvar");
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalvarActionPerformed(evt);
+            }
+        });
 
         jButtonLimpar.setText("Limpar");
         jButtonLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -697,31 +719,196 @@ private void jButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
 private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
     this.setEditable(true);
+    this.saveMode = 0;
 }//GEN-LAST:event_jButtonEditarActionPerformed
 
 private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarActionPerformed
     this.clearFields();
     this.setEditable(true);
+    this.saveMode = 1;
 }//GEN-LAST:event_jButtonAdicionarActionPerformed
-    private void jListAtiradoresActionPerformed(ListSelectionEvent evt) {
+
+private void jButtonAddTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddTelefoneActionPerformed
+    if(this.validateAddTelefones())
+    jModelTelefones.addElement(jTextoTelefone.getText());
+    
+}//GEN-LAST:event_jButtonAddTelefoneActionPerformed
+
+private void jButtonRemoveTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveTelefoneActionPerformed
+    if (jListTelefones.getSelectedIndex() != -1) {
+    jModelTelefones.remove(jListTelefones.getSelectedIndex());
+    }
+    
+}//GEN-LAST:event_jButtonRemoveTelefoneActionPerformed
+
+private void jButtonAddProvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddProvaActionPerformed
+    if(this.validateAddProvas()){
+    Prova p = new Prova(Integer.parseInt(jTextoDistancia.getText()), jTextoArma.getText(), jTextoModo.getText());
+    jModelProvas.addElement(p);
+    this.reloadComboProva();
+    }   
+    
+}//GEN-LAST:event_jButtonAddProvaActionPerformed
+
+private void jButtonRemoveProvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveProvaActionPerformed
+    if (jListProvas.getSelectedIndex() != -1) {
+    jModelProvas.remove(jListProvas.getSelectedIndex());
+    this.reloadComboProva();
+    }
+}//GEN-LAST:event_jButtonRemoveProvaActionPerformed
+
+private void jButtonAddPremiacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddPremiacaoActionPerformed
+    if(this.validateAddPremiacoes()){
+    Premiacao p = new Premiacao(jTextoTitulo.getText(),Integer.parseInt(jTextoAno.getText()));
+    jModelPremiacao.addElement(p);
+    }
+    
+}//GEN-LAST:event_jButtonAddPremiacaoActionPerformed
+
+private void jButtonRemovePremiacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemovePremiacaoActionPerformed
+    if (jListPremiacao.getSelectedIndex() != -1) {
+    jModelPremiacao.remove(jListPremiacao.getSelectedIndex());
+    }
+    
+}//GEN-LAST:event_jButtonRemovePremiacaoActionPerformed
+
+private void jButtonAddSequenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddSequenciaActionPerformed
+    if(this.validateAddMelhoresSequencias()){
+    Sequencia s = new Sequencia((Prova)jComboBoxProva.getSelectedItem(),jTextoEvento.getText(),Integer.parseInt(jTextoPontos.getText()));
+    jModelSequencias.addElement(s);
+    }
+    
+}//GEN-LAST:event_jButtonAddSequenciaActionPerformed
+
+private void jButtonRemoveSequenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveSequenciaActionPerformed
+    if (jListSequencias.getSelectedIndex() != -1) {
+    jModelSequencias.remove(jListSequencias.getSelectedIndex());
+    }
+}//GEN-LAST:event_jButtonRemoveSequenciaActionPerformed
+
+private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+    if(validateFields()){
+        char sexo;
+        char classe;
+        char posicao;
+    if(jComboBoxClasse.getSelectedIndex() == 0){
+        classe = 'N';
+    }else classe = 'P';
+    if(jComboBoxSexo.getSelectedIndex() == 0){
+        sexo = 'M';
+    }else sexo = 'F';
+    if(jComboBoxPosicao.getSelectedIndex() == 0){
+        posicao = 'D';
+    }else posicao = 'C';
+        
+    Atirador atirador = new Atirador(jTextoNome.getText());
+    ArrayList<Prova> provas = new ArrayList<Prova>();
+    ArrayList<Sequencia> sequencias = new ArrayList<Sequencia>();
+    ArrayList<Premiacao> premiacoes = new ArrayList<Premiacao>();
+    Endereco endereco = new Endereco();
+    ArrayList<String> telefones = new ArrayList<String>();
+    
+    for(int i =0; i<jModelProvas.size();i++){
+    provas.add((Prova)jModelProvas.get(i));
+    }
+    for(int i =0; i<jModelSequencias.size();i++){
+    sequencias.add((Sequencia)jModelSequencias.get(i));
+    }
+    for(int i =0; i<jModelPremiacao.size();i++){
+    premiacoes.add((Premiacao)jModelPremiacao.get(i));
+    }
+    for(int i =0; i<jModelTelefones.size();i++){
+    telefones.add((String)jModelTelefones.get(i));
+    }
+    
+    endereco.setBairro(jTextoBairro.getText());
+    endereco.setCep(jTextoCep.getText());
+    endereco.setCidade(jTextoCidade.getText());
+    endereco.setComplemento(jTextoComplemento.getText());
+    endereco.setEstado(jTextoEstado.getText());
+    endereco.setLogradouro(jTextoLogradouro.getText());
+    endereco.setNumero(jTextoNumero.getText());
+    endereco.setPais(jTextoPais.getText());  
+    
+    
+    
+    atirador.setAltura(Double.parseDouble(jTextoAltura.getText()));
+    atirador.setPeso(Double.parseDouble(jTextoPeso.getText()));
+    atirador.setClasse(classe);
+    atirador.setSexo(sexo);
+    atirador.setPosicao(posicao);
+    atirador.setCpf(jTextoCpf.getText());
+    try{
+    atirador.setDataNascimento(dateFormat.parse(jTextoDataNasc.getText()));
+    }catch(ParseException e){
+        JOptionPane.showMessageDialog(null, "Erro ao salvar a data informada!");
+        atirador.setDataNascimento(null);
+    }
+    atirador.setEndereco(endereco);
+    atirador.setMelhoresSequencias(sequencias);
+    atirador.setNome(jTextoNome.getText());
+    atirador.setNomeMae(jTextoNomeMae.getText());
+    atirador.setNomePai(jTextoNomePai.getText());
+    atirador.setPremiacoes(premiacoes);
+    atirador.setProvas(provas);
+    atirador.setRg(jTextoRg.getText());
+    atirador.setTelefones(telefones);
+    
+    try{
+        if(saveMode == 0){
+            if(getSelected(jListAtiradores) != null){
+                Atirador aux = (Atirador) getSelected(jListAtiradores);
+                controle.removeAtirador(controle.getAtirador(aux.getNome()));
+                controle.addAtirador(atirador);
+            }
+        }else if(saveMode == 1){
+            controle.addAtirador(atirador);
+        }
+        JOptionPane.showMessageDialog(null, "Dados salvos com sucesso!");
+    }catch(Exception e ){
+        JOptionPane.showMessageDialog(null, "Erro ao salvar os dados informados!");
+    }
+    }
+    this.reloadMainList();
+}//GEN-LAST:event_jButtonSalvarActionPerformed
+
+
+
+
+private void jListAtiradoresActionPerformed(ListSelectionEvent evt) {
         Atirador atirador = (Atirador)getSelected(jListAtiradores);
-        /*
-        if(!atirador.getProvas().isEmpty()){
+        this.clearFields();
+        if(atirador.getProvas() != null){
         for(Prova p : atirador.getProvas()){
             jModelProvas.addElement(p);
         }
+        for(Prova p : atirador.getProvas()){
+            jComboBoxProva.addItem(p);
         }
-        if(!atirador.getPremiacoes().isEmpty()){
+        }
+        if(atirador.getPremiacoes()!= null){
         for(Premiacao p : atirador.getPremiacoes()){
            jModelPremiacao.addElement(p);
         }
         }
-        if(!atirador.getMelhoresSequencias().isEmpty()){
+        if(atirador.getTelefones()!= null){
+        for(String s : atirador.getTelefones()){
+           jModelTelefones.addElement(s);
+        }
+        }
+        if(atirador.getMelhoresSequencias()!= null){
         for(Sequencia s : atirador.getMelhoresSequencias()){
-           jModelProvas.addElement(s);
+           jModelSequencias.addElement(s);
         }
+        
         }
-         */
+        
+        if (atirador.getDataNascimento() == null) {
+            jTextoDataNasc.setText("");
+        } else {
+            jTextoDataNasc.setText(dateFormat.format(atirador.getDataNascimento()));
+        }
+         
         jTextoNome.setText(atirador.getNome());
         jTextoAltura.setText(String.valueOf(atirador.getAltura()));
         jTextoCpf.setText(atirador.getCpf());
@@ -849,11 +1036,116 @@ private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//
         jTextoModo.setEditable(op);
         jTextoTelefone.setEditable(op);
         jTextoTitulo.setEditable(op);
+        jTextoPontos.setEditable(op);
+    }
+    
+    public void reloadMainList(){
+        jModelAtiradores = new DefaultListModel();
+        for(Atirador at : controle.listaAtirador()){
+        jModelAtiradores.addElement(at);
+        jListAtiradores.setModel(jModelAtiradores);
+        }
+        
+        
+    }
+    
+    private void initMoreComponents(){
+        this.setEditable(false);
+        CustomListCellRenderer renderer = new CustomListCellRenderer();
+        emptyModel = new DefaultComboBoxModel();
+        jListAtiradores.setCellRenderer(renderer);
+        this.jModelTelefones = new DefaultListModel();
+        this.jListTelefones.setModel(jModelTelefones);
+        this.jModelDefault = new DefaultListModel();
+        this.jModelAtiradores = new DefaultListModel();
+        this.jListAtiradores.setModel(jModelAtiradores);
+        this.jModelProvas = new DefaultListModel();
+        this.jListProvas.setModel(jModelProvas);
+        this.jModelPremiacao = new DefaultListModel();
+        this.jListPremiacao.setModel(jModelPremiacao);
+        this.jModelSequencias = new DefaultListModel();
+        this.jListSequencias.setModel(jModelSequencias);
+        controle = new ControleAtirador();
+        this.preparedEntry();
+        this.reloadMainList();
+        jListAtiradores.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                jListAtiradoresActionPerformed(e);
+            }
+        });
+    }
+    
+    
+    public void preparedEntry(){
+        Atirador atirador = new Atirador(jTextoNome.getText());
+        ArrayList<Prova> provas = new ArrayList<Prova>();
+        ArrayList<Sequencia> sequencias = new ArrayList<Sequencia>();
+        ArrayList<Premiacao> premiacoes = new ArrayList<Premiacao>();
+        Endereco endereco = new Endereco();
+        ArrayList<String> telefones = new ArrayList<String>();
+        
+        Prova p = new Prova();
+        p.setArma("Shotgun");
+        p.setDistancia(20);
+        p.setModo("Prone");
+        provas.add(p);
+        Sequencia s = new Sequencia(p,"Olimpíadas de Athenas - 2006", 1350);
+        sequencias.add(s);
+        Premiacao pm = new Premiacao("Campeão Olímpico", 2006);
+        premiacoes.add(pm);
+        
+        endereco.setBairro("Gama");
+        endereco.setCep("72000-000");
+        endereco.setCidade("Brasília");
+        endereco.setComplemento("");
+        endereco.setEstado("DF");
+        endereco.setLogradouro("Qr. 32 Conj. F");
+        endereco.setNumero("3");
+        endereco.setPais("Brasil");
+        
+        telefones.add("61 3333-4444");
+        telefones.add("61 3555-4444");
+        
+        atirador.setAltura(1.80);
+        atirador.setPeso(70.0);
+        atirador.setClasse('N');
+        atirador.setSexo('M');
+        atirador.setPosicao('D');
+        atirador.setCpf("111.111.111-11");
+        try{
+        atirador.setDataNascimento(dateFormat.parse("12/12/2012"));
+        }catch(ParseException e){
+            atirador.setDataNascimento(null);
+        }
+        atirador.setEndereco(endereco);
+        atirador.setMelhoresSequencias(sequencias);
+        atirador.setNome("André");
+        atirador.setNomeMae("");
+        atirador.setNomePai("");
+        atirador.setPremiacoes(premiacoes);
+        atirador.setProvas(provas);
+        atirador.setRg("333.333-3");
+        atirador.setTelefones(telefones);
+        
+        controle.addAtirador(atirador);
+    }
+    
+    public void reloadComboProva(){
+    emptyModel = new DefaultComboBoxModel();
+    jComboBoxProva.setModel(emptyModel);
+    ArrayList<Prova> pList = new ArrayList();
+    for(int i =0; i<jModelProvas.size();i++){
+    pList.add((Prova)jModelProvas.get(i));
+    }
+    for(Prova p: pList){
+    jComboBoxProva.addItem(p);
+    }
     }
     
     public void clearFields(){
         jTextoNome.setText("");
-        jTextoAltura.setText("");
+        jTextoAltura.setText("0.0");
         jTextoCpf.setText("");
         jTextoDataNasc.setText("");
         jTextoNomeMae.setText("");
@@ -879,11 +1171,154 @@ private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//
         jTextoModo.setText("");
         jTextoTelefone.setText("");
         jTextoTitulo.setText("");
-        jListPremiacao.setModel(jModelDefault);
-        jListProvas.setModel(jModelDefault);
-        jListSequencias.setModel(jModelDefault);
+        jModelPremiacao.clear();
+        jModelSequencias.clear();
+        jModelTelefones.clear();
+        jModelProvas.clear();
+        jTextoPontos.setText("0");
         
     }
+    
+    public boolean validateFields(){
+        if(jTextoNome.getText().trim().length() < 3){
+            JOptionPane.showMessageDialog(null, "O campo Nome deve ser maior que 3 caracteres!");
+            return false;
+        }
+        if(jTextoRg.getText().trim().length() <= 0){
+            JOptionPane.showMessageDialog(null, "O campo Rg não pode ser vazio!");
+            return false;
+        }
+        if(jTextoCpf.getText().trim().length() < 3){
+            JOptionPane.showMessageDialog(null, "O campo CPF não pode ser vazio!");
+            return false;
+        }
+        if(jTextoAltura.getText().trim().length() <= 0){
+            JOptionPane.showMessageDialog(null, "O campo Altura não pode ser vazio!");
+            return false;
+        }else{
+            try{
+            Double.parseDouble(jTextoAltura.getText());
+            }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "O campo Ano deve ser real!");
+            return false;
+            }
+        }
+        if(jTextoPeso.getText().trim().length() <= 0){
+            JOptionPane.showMessageDialog(null, "O campo Peso não pode ser vazio!");
+            return false;
+        }else{
+            try{
+            Double.parseDouble(jTextoPeso.getText());
+            }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "O campo Peso deve ser real!");
+            return false;
+            }
+        }
+        if(jTextoDataNasc.getText().trim().length() <= 0){
+            JOptionPane.showMessageDialog(null, "O campo Data Nasc. não pode ser vazio!");
+            return false;
+        }else{
+        try{
+            dateFormat.parse(jTextoDataNasc.getText());
+        }catch(ParseException e){
+            JOptionPane.showMessageDialog(null, "A data informada é invalida!");
+            return false;    
+        }
+        }
+        return true;
+    }
+    
+    public boolean validateAddTelefones(){
+        if(jTextoTelefone.getText().trim().length() <= 0){
+            JOptionPane.showMessageDialog(null, "O campo Telefone não pode ser vazio!");
+            return false;
+        }
+        return true;
+    }
+    public boolean validateAddProvas(){
+        if(jTextoDistancia.getText().trim().length() <= 0){
+
+            JOptionPane.showMessageDialog(null, "O campo Distancia não pode ser vazio!");
+            return false;
+        }else{
+            try{
+            Integer.parseInt(jTextoDistancia.getText());
+            }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "O campo Distancia deve ser inteiro, em metros!");
+            return false;
+            }
+        
+        }
+        if(jTextoArma.getText().trim().length() <= 0){
+            JOptionPane.showMessageDialog(null, "O campo Arma não pode ser vazio!");
+            return false;
+        }
+        if(jTextoModo.getText().trim().length() <= 0){
+            JOptionPane.showMessageDialog(null, "O campo Modo não pode ser vazio!");
+            return false;
+        }
+        
+        return true;
+    }
+    public boolean validateAddPremiacoes(){
+        if(jTextoTitulo.getText().trim().length() <= 0){
+            JOptionPane.showMessageDialog(null, "O campo Titulo não pode ser vazio!");
+            return false;
+        }
+        if(jTextoAno.getText().trim().length() <= 0){
+            JOptionPane.showMessageDialog(null, "O campo Ano não pode ser vazio!");
+            return false;
+        }else{
+            try{
+            Integer.parseInt(jTextoAno.getText());
+            }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "O campo Ano deve ser inteiro!");
+            return false;
+            }
+        }
+        return true;
+    }
+    public boolean validateAddMelhoresSequencias(){
+        if(jTextoEvento.getText().trim().length() <= 0){
+            JOptionPane.showMessageDialog(null, "O campo Evento não pode ser vazio!");
+            return false;
+        }
+        if(jTextoPontos.getText().trim().length() <= 0){
+            JOptionPane.showMessageDialog(null, "O campo Pontos não pode ser vazio!");
+            return false;
+        }else{
+            try{
+            Integer.parseInt(jTextoPontos.getText());
+            }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "O campo Pontos deve ser inteiro!");
+            return false;
+            }
+        }
+        try{
+            if(jComboBoxProva.getSelectedItem() != null){
+            jModelProvas.contains((Prova)jComboBoxProva.getSelectedItem());
+            }else {
+            JOptionPane.showMessageDialog(null, "A prova selecionada não está contida na lista de provas!");
+            return false;
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "A prova selecionada não está contida na lista de provas!");
+            return false;
+        }
+        return true;
+    }
+    
+    public void reloadLists(){
+        jListProvas.setModel(jModelProvas);
+        jListPremiacao.setModel(jModelPremiacao);
+        jListSequencias.setModel(jModelSequencias);
+        jListAtiradores.setModel(jModelAtiradores);
+        jListTelefones.setModel(jModelTelefones);
+
+    }
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAddPremiacao;
     private javax.swing.JButton jButtonAddProva;
@@ -929,11 +1364,11 @@ private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList jList2;
     private javax.swing.JList jListAtiradores;
     private javax.swing.JList jListPremiacao;
     private javax.swing.JList jListProvas;
     private javax.swing.JList jListSequencias;
+    private javax.swing.JList jListTelefones;
     private javax.swing.JPanel jPainel2;
     private javax.swing.JTabbedPane jPainelTab1;
     private javax.swing.JPanel jPanel1;

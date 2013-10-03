@@ -245,11 +245,11 @@
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel3" min="-2" pref="88" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jTextoTelefone" pref="143" max="32767" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jButtonRemoveTelefone" min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="jTextoTelefone" pref="137" max="32767" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="jButtonAddTelefone" min="-2" pref="38" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                      <Component id="jButtonRemoveTelefone" min="-2" pref="36" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="jScrollPane4" pref="341" max="32767" attributes="0"/>
                               </Group>
@@ -296,9 +296,9 @@
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jTextoTelefone" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jButtonAddTelefone" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jButtonRemoveTelefone" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jButtonRemoveTelefone" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jButtonAddTelefone" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jScrollPane4" pref="186" max="32767" attributes="0"/>
@@ -326,6 +326,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="+"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAddTelefoneActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextoCpf">
                     </Component>
@@ -366,6 +369,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="-"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRemoveTelefoneActionPerformed"/>
+                      </Events>
                     </Component>
                     <Container class="javax.swing.JScrollPane" name="jScrollPane4">
                       <AuxValues>
@@ -374,7 +380,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JList" name="jList2">
+                        <Component class="javax.swing.JList" name="jListTelefones">
                           <Properties>
                             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                               <StringArray count="0"/>
@@ -459,14 +465,8 @@
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="jTextoComplemento" min="-2" pref="180" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="jTextoPais" min="-2" pref="180" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="jTextoComplemento" alignment="1" min="-2" pref="180" max="-2" attributes="0"/>
+                                      <Component id="jTextoPais" alignment="1" min="-2" pref="180" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="jTextoCep" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
                               </Group>
@@ -615,8 +615,8 @@
                               </Group>
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jButtonRemoveProva" pref="86" max="32767" attributes="0"/>
-                                  <Component id="jButtonAddProva" pref="86" max="32767" attributes="0"/>
+                                  <Component id="jButtonRemoveProva" pref="74" max="32767" attributes="0"/>
+                                  <Component id="jButtonAddProva" pref="74" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jScrollPane3" min="-2" pref="281" max="-2" attributes="0"/>
@@ -703,11 +703,17 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="-"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRemoveProvaActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="jButtonAddProva">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="+"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAddProvaActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -786,11 +792,17 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="-"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRemovePremiacaoActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="jButtonAddPremiacao">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="+"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAddPremiacaoActionPerformed"/>
+                      </Events>
                     </Component>
                     <Container class="javax.swing.JScrollPane" name="jScrollPane5">
                       <AuxValues>
@@ -931,11 +943,17 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="+"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAddSequenciaActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="jButtonRemoveSequencia">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="-"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRemoveSequenciaActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -971,6 +989,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSalvarActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonLimpar">
               <Properties>

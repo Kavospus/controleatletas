@@ -25,7 +25,13 @@ public class ControleAtirador {
         return null;
     }
     public ArrayList<Atirador> listaAtirador(Prova prova){
-        return prova.getAtiradores();
+        ArrayList<Atirador> atiradores = null;
+        for(Atirador a : listaAtirador){
+        if(a.getProvas().contains(prova)){
+            atiradores.add(a);
+        }
+        }
+        return atiradores;
     }
     public ArrayList<Atirador> listaAtirador(){
         return this.listaAtirador;

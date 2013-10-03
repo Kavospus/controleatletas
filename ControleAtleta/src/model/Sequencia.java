@@ -43,6 +43,11 @@ public class Sequencia {
         this.pontos = pontos;
     }
 
+    @Override
+    public String toString() {
+        return "Prova: " + prova + " - " + evento + " - Pontos: " + pontos;
+    }
+
     
     
     
