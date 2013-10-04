@@ -37,11 +37,12 @@ public class CadastroAtirador extends javax.swing.JFrame {
     private DefaultListModel jModelSequencias;
     private DefaultListModel jModelTelefones;
     private DefaultListModel jModelDefault;
-    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private DateFormat dateFormat;
     private ComboBoxModel emptyModel;
     private int saveMode;
     private ControleAtirador controle;
-    
+    private Atirador atiradorSelecionado;
+
     public CadastroAtirador() {
         initComponents();
         initMoreComponents();
@@ -142,10 +143,19 @@ public class CadastroAtirador extends javax.swing.JFrame {
         jButtonEditar = new javax.swing.JButton();
         jButtonSalvar = new javax.swing.JButton();
         jButtonLimpar = new javax.swing.JButton();
+        jComboBoxPesquisa = new javax.swing.JComboBox();
+        jTextoPesquisa = new javax.swing.JTextField();
+        jButtonPesquisa = new javax.swing.JButton();
+        jButtonExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jListAtiradores.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jListAtiradores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListAtiradoresMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jListAtiradores);
 
         jLabel1.setText("Nome");
@@ -227,12 +237,12 @@ public class CadastroAtirador extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextoTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                        .addComponent(jTextoTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonAddTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
                         .addComponent(jButtonRemoveTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -319,7 +329,7 @@ public class CadastroAtirador extends javax.swing.JFrame {
                             .addComponent(jTextoBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextoCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextoEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -418,7 +428,7 @@ public class CadastroAtirador extends javax.swing.JFrame {
                     .addComponent(jButtonAddProva, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addGap(32, 32, 32))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -478,10 +488,10 @@ public class CadastroAtirador extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 743, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+                        .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
                         .addGap(6, 6, 6)
                         .addComponent(jTextoTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -543,11 +553,11 @@ public class CadastroAtirador extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 743, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
-                            .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
+                            .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                            .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
                         .addGap(6, 6, 6)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextoEvento, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
@@ -618,6 +628,33 @@ public class CadastroAtirador extends javax.swing.JFrame {
             }
         });
 
+        jComboBoxPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome", "Prova" }));
+
+        jTextoPesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextoPesquisaActionPerformed(evt);
+            }
+        });
+        jTextoPesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextoPesquisaKeyReleased(evt);
+            }
+        });
+
+        jButtonPesquisa.setText("Pesquisa");
+        jButtonPesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPesquisaActionPerformed(evt);
+            }
+        });
+
+        jButtonExcluir.setText("Excluir");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPainel2Layout = new javax.swing.GroupLayout(jPainel2);
         jPainel2.setLayout(jPainel2Layout);
         jPainel2Layout.setHorizontalGroup(
@@ -625,9 +662,16 @@ public class CadastroAtirador extends javax.swing.JFrame {
             .addGroup(jPainel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPainel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 775, Short.MAX_VALUE)
                     .addGroup(jPainel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPainel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPainel2Layout.createSequentialGroup()
+                                .addComponent(jComboBoxPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPainel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPainel2Layout.createSequentialGroup()
@@ -651,7 +695,9 @@ public class CadastroAtirador extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(12, 12, 12)
-                                .addComponent(jButtonLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPainel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButtonExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButtonLimpar, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))))
                         .addGap(37, 37, 37)))
                 .addContainerGap())
         );
@@ -660,7 +706,13 @@ public class CadastroAtirador extends javax.swing.JFrame {
             .addGroup(jPainel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPainel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPainel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPainel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBoxPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonPesquisa)))
                     .addGroup(jPainel2Layout.createSequentialGroup()
                         .addGroup(jPainel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
@@ -683,7 +735,8 @@ public class CadastroAtirador extends javax.swing.JFrame {
                             .addComponent(jButtonEditar)
                             .addComponent(jButtonSalvar)
                             .addComponent(jButtonLimpar))
-                        .addGap(23, 23, 23)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonExcluir)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -697,7 +750,7 @@ public class CadastroAtirador extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPainelTab1, javax.swing.GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE)
+                .addComponent(jPainelTab1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -729,238 +782,184 @@ private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//
 }//GEN-LAST:event_jButtonAdicionarActionPerformed
 
 private void jButtonAddTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddTelefoneActionPerformed
-    if(this.validateAddTelefones())
-    jModelTelefones.addElement(jTextoTelefone.getText());
-    
+    if (this.validateAddTelefones()) {
+        jModelTelefones.addElement(jTextoTelefone.getText());
+    }
+
 }//GEN-LAST:event_jButtonAddTelefoneActionPerformed
 
 private void jButtonRemoveTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveTelefoneActionPerformed
     if (jListTelefones.getSelectedIndex() != -1) {
-    jModelTelefones.remove(jListTelefones.getSelectedIndex());
+        jModelTelefones.remove(jListTelefones.getSelectedIndex());
     }
-    
+
 }//GEN-LAST:event_jButtonRemoveTelefoneActionPerformed
 
 private void jButtonAddProvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddProvaActionPerformed
-    if(this.validateAddProvas()){
-    Prova p = new Prova(Integer.parseInt(jTextoDistancia.getText()), jTextoArma.getText(), jTextoModo.getText());
-    jModelProvas.addElement(p);
-    this.reloadComboProva();
-    }   
-    
+    if (this.validateAddProvas()) {
+        Prova p = new Prova(Integer.parseInt(jTextoDistancia.getText()), jTextoArma.getText(), jTextoModo.getText());
+        jModelProvas.addElement(p);
+        this.reloadComboProva();
+    }
+
 }//GEN-LAST:event_jButtonAddProvaActionPerformed
 
 private void jButtonRemoveProvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveProvaActionPerformed
     if (jListProvas.getSelectedIndex() != -1) {
-    jModelProvas.remove(jListProvas.getSelectedIndex());
-    this.reloadComboProva();
+        jModelProvas.remove(jListProvas.getSelectedIndex());
+        this.reloadComboProva();
     }
 }//GEN-LAST:event_jButtonRemoveProvaActionPerformed
 
 private void jButtonAddPremiacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddPremiacaoActionPerformed
-    if(this.validateAddPremiacoes()){
-    Premiacao p = new Premiacao(jTextoTitulo.getText(),Integer.parseInt(jTextoAno.getText()));
-    jModelPremiacao.addElement(p);
+    if (this.validateAddPremiacoes()) {
+        Premiacao p = new Premiacao(jTextoTitulo.getText(), Integer.parseInt(jTextoAno.getText()));
+        jModelPremiacao.addElement(p);
     }
-    
+
 }//GEN-LAST:event_jButtonAddPremiacaoActionPerformed
 
 private void jButtonRemovePremiacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemovePremiacaoActionPerformed
     if (jListPremiacao.getSelectedIndex() != -1) {
-    jModelPremiacao.remove(jListPremiacao.getSelectedIndex());
+        jModelPremiacao.remove(jListPremiacao.getSelectedIndex());
     }
-    
+
 }//GEN-LAST:event_jButtonRemovePremiacaoActionPerformed
 
 private void jButtonAddSequenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddSequenciaActionPerformed
-    if(this.validateAddMelhoresSequencias()){
-    Sequencia s = new Sequencia((Prova)jComboBoxProva.getSelectedItem(),jTextoEvento.getText(),Integer.parseInt(jTextoPontos.getText()));
-    jModelSequencias.addElement(s);
+    if (this.validateAddMelhoresSequencias()) {
+        Sequencia s = new Sequencia((Prova) jComboBoxProva.getSelectedItem(), jTextoEvento.getText(), Integer.parseInt(jTextoPontos.getText()));
+        jModelSequencias.addElement(s);
     }
-    
+
 }//GEN-LAST:event_jButtonAddSequenciaActionPerformed
 
 private void jButtonRemoveSequenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveSequenciaActionPerformed
     if (jListSequencias.getSelectedIndex() != -1) {
-    jModelSequencias.remove(jListSequencias.getSelectedIndex());
+        jModelSequencias.remove(jListSequencias.getSelectedIndex());
     }
 }//GEN-LAST:event_jButtonRemoveSequenciaActionPerformed
 
 private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-    if(validateFields()){
+    if (validateFields()) {
         char sexo;
         char classe;
         char posicao;
-    if(jComboBoxClasse.getSelectedIndex() == 0){
-        classe = 'N';
-    }else classe = 'P';
-    if(jComboBoxSexo.getSelectedIndex() == 0){
-        sexo = 'M';
-    }else sexo = 'F';
-    if(jComboBoxPosicao.getSelectedIndex() == 0){
-        posicao = 'D';
-    }else posicao = 'C';
-        
-    Atirador atirador = new Atirador(jTextoNome.getText());
-    ArrayList<Prova> provas = new ArrayList<Prova>();
-    ArrayList<Sequencia> sequencias = new ArrayList<Sequencia>();
-    ArrayList<Premiacao> premiacoes = new ArrayList<Premiacao>();
-    Endereco endereco = new Endereco();
-    ArrayList<String> telefones = new ArrayList<String>();
-    
-    for(int i =0; i<jModelProvas.size();i++){
-    provas.add((Prova)jModelProvas.get(i));
-    }
-    for(int i =0; i<jModelSequencias.size();i++){
-    sequencias.add((Sequencia)jModelSequencias.get(i));
-    }
-    for(int i =0; i<jModelPremiacao.size();i++){
-    premiacoes.add((Premiacao)jModelPremiacao.get(i));
-    }
-    for(int i =0; i<jModelTelefones.size();i++){
-    telefones.add((String)jModelTelefones.get(i));
-    }
-    
-    endereco.setBairro(jTextoBairro.getText());
-    endereco.setCep(jTextoCep.getText());
-    endereco.setCidade(jTextoCidade.getText());
-    endereco.setComplemento(jTextoComplemento.getText());
-    endereco.setEstado(jTextoEstado.getText());
-    endereco.setLogradouro(jTextoLogradouro.getText());
-    endereco.setNumero(jTextoNumero.getText());
-    endereco.setPais(jTextoPais.getText());  
-    
-    
-    
-    atirador.setAltura(Double.parseDouble(jTextoAltura.getText()));
-    atirador.setPeso(Double.parseDouble(jTextoPeso.getText()));
-    atirador.setClasse(classe);
-    atirador.setSexo(sexo);
-    atirador.setPosicao(posicao);
-    atirador.setCpf(jTextoCpf.getText());
-    try{
-    atirador.setDataNascimento(dateFormat.parse(jTextoDataNasc.getText()));
-    }catch(ParseException e){
-        JOptionPane.showMessageDialog(null, "Erro ao salvar a data informada!");
-        atirador.setDataNascimento(null);
-    }
-    atirador.setEndereco(endereco);
-    atirador.setMelhoresSequencias(sequencias);
-    atirador.setNome(jTextoNome.getText());
-    atirador.setNomeMae(jTextoNomeMae.getText());
-    atirador.setNomePai(jTextoNomePai.getText());
-    atirador.setPremiacoes(premiacoes);
-    atirador.setProvas(provas);
-    atirador.setRg(jTextoRg.getText());
-    atirador.setTelefones(telefones);
-    
-    try{
-        if(saveMode == 0){
-            if(getSelected(jListAtiradores) != null){
-                Atirador aux = (Atirador) getSelected(jListAtiradores);
-                controle.removeAtirador(controle.getAtirador(aux.getNome()));
+        if (jComboBoxClasse.getSelectedIndex() == 0) {
+            classe = 'N';
+        } else {
+            classe = 'P';
+        }
+        if (jComboBoxSexo.getSelectedIndex() == 0) {
+            sexo = 'M';
+        } else {
+            sexo = 'F';
+        }
+        if (jComboBoxPosicao.getSelectedIndex() == 0) {
+            posicao = 'D';
+        } else {
+            posicao = 'C';
+        }
+
+        Atirador atirador = new Atirador(jTextoNome.getText());
+        ArrayList<Prova> provas = new ArrayList<Prova>();
+        ArrayList<Sequencia> sequencias = new ArrayList<Sequencia>();
+        ArrayList<Premiacao> premiacoes = new ArrayList<Premiacao>();
+        Endereco endereco = new Endereco();
+        ArrayList<String> telefones = new ArrayList<String>();
+
+        for (int i = 0; i < jModelProvas.size(); i++) {
+            provas.add((Prova) jModelProvas.get(i));
+        }
+        for (int i = 0; i < jModelSequencias.size(); i++) {
+            sequencias.add((Sequencia) jModelSequencias.get(i));
+        }
+        for (int i = 0; i < jModelPremiacao.size(); i++) {
+            premiacoes.add((Premiacao) jModelPremiacao.get(i));
+        }
+        for (int i = 0; i < jModelTelefones.size(); i++) {
+            telefones.add((String) jModelTelefones.get(i));
+        }
+
+        endereco.setBairro(jTextoBairro.getText());
+        endereco.setCep(jTextoCep.getText());
+        endereco.setCidade(jTextoCidade.getText());
+        endereco.setComplemento(jTextoComplemento.getText());
+        endereco.setEstado(jTextoEstado.getText());
+        endereco.setLogradouro(jTextoLogradouro.getText());
+        endereco.setNumero(jTextoNumero.getText());
+        endereco.setPais(jTextoPais.getText());
+
+
+
+        atirador.setAltura(Double.parseDouble(jTextoAltura.getText()));
+        atirador.setPeso(Double.parseDouble(jTextoPeso.getText()));
+        atirador.setClasse(classe);
+        atirador.setSexo(sexo);
+        atirador.setPosicao(posicao);
+        atirador.setCpf(jTextoCpf.getText());
+        try {
+            atirador.setDataNascimento(dateFormat.parse(jTextoDataNasc.getText()));
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao salvar a data informada!");
+            atirador.setDataNascimento(null);
+        }
+        atirador.setEndereco(endereco);
+        atirador.setMelhoresSequencias(sequencias);
+        atirador.setNome(jTextoNome.getText());
+        atirador.setNomeMae(jTextoNomeMae.getText());
+        atirador.setNomePai(jTextoNomePai.getText());
+        atirador.setPremiacoes(premiacoes);
+        atirador.setProvas(provas);
+        atirador.setRg(jTextoRg.getText());
+        atirador.setTelefones(telefones);
+
+        try {
+            if (saveMode == 0) {
+                if (atiradorSelecionado != null) {
+                    Atirador aux = atiradorSelecionado;
+                    controle.removeAtirador(controle.getAtirador(aux.getNome()));
+                    controle.addAtirador(atirador);
+                }
+            } else if (saveMode == 1) {
                 controle.addAtirador(atirador);
             }
-        }else if(saveMode == 1){
-            controle.addAtirador(atirador);
+            JOptionPane.showMessageDialog(null, "Dados salvos com sucesso!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao salvar os dados informados!");
         }
-        JOptionPane.showMessageDialog(null, "Dados salvos com sucesso!");
-    }catch(Exception e ){
-        JOptionPane.showMessageDialog(null, "Erro ao salvar os dados informados!");
-    }
     }
     this.reloadMainList();
 }//GEN-LAST:event_jButtonSalvarActionPerformed
 
+private void jListAtiradoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListAtiradoresMouseClicked
+    this.fillFields();
+}//GEN-LAST:event_jListAtiradoresMouseClicked
 
+private void jTextoPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextoPesquisaActionPerformed
+}//GEN-LAST:event_jTextoPesquisaActionPerformed
 
+private void jTextoPesquisaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextoPesquisaKeyReleased
+    this.dinamicSearch();
+}//GEN-LAST:event_jTextoPesquisaKeyReleased
 
-private void jListAtiradoresActionPerformed(ListSelectionEvent evt) {
-        Atirador atirador = (Atirador)getSelected(jListAtiradores);
+private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+    if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir?") == 0) {
+        controle.removeAtirador(atiradorSelecionado);
         this.clearFields();
-        if(atirador.getProvas() != null){
-        for(Prova p : atirador.getProvas()){
-            jModelProvas.addElement(p);
-        }
-        for(Prova p : atirador.getProvas()){
-            jComboBoxProva.addItem(p);
-        }
-        }
-        if(atirador.getPremiacoes()!= null){
-        for(Premiacao p : atirador.getPremiacoes()){
-           jModelPremiacao.addElement(p);
-        }
-        }
-        if(atirador.getTelefones()!= null){
-        for(String s : atirador.getTelefones()){
-           jModelTelefones.addElement(s);
-        }
-        }
-        if(atirador.getMelhoresSequencias()!= null){
-        for(Sequencia s : atirador.getMelhoresSequencias()){
-           jModelSequencias.addElement(s);
-        }
-        
-        }
-        
-        if (atirador.getDataNascimento() == null) {
-            jTextoDataNasc.setText("");
-        } else {
-            jTextoDataNasc.setText(dateFormat.format(atirador.getDataNascimento()));
-        }
-         
-        jTextoNome.setText(atirador.getNome());
-        jTextoAltura.setText(String.valueOf(atirador.getAltura()));
-        jTextoCpf.setText(atirador.getCpf());
-        jTextoDataNasc.setText(String.valueOf(atirador.getDataNascimento()));
-        jTextoNomeMae.setText(atirador.getNomeMae());
-        jTextoNomePai.setText(atirador.getNomePai());
-        jTextoRg.setText(atirador.getRg());
-        jTextoPeso.setText(String.valueOf(atirador.getPeso()));
-        jTextoLogradouro.setText(atirador.getEndereco().getLogradouro());
-        jTextoComplemento.setText(atirador.getEndereco().getComplemento());
-        jTextoCidade.setText(atirador.getEndereco().getCidade());
-        jTextoPais.setText(atirador.getEndereco().getPais());
-        jTextoBairro.setText(atirador.getEndereco().getBairro());
-        jTextoCep.setText(atirador.getEndereco().getCep());
-        jTextoEstado.setText(atirador.getEndereco().getEstado());
-        jTextoNumero.setText(atirador.getEndereco().getNumero());
-        jTextoAno.setText("");
-        jTextoArma.setText("");
-        jTextoDistancia.setText("");
-        jTextoEvento.setText("");
-        jTextoModo.setText("");
-        jTextoTelefone.setText("");
-        jTextoTitulo.setText("");
-        switch(atirador.getSexo()){
-            case 'M':
-                jComboBoxSexo.setSelectedIndex(0);
-            break;
-            case 'F':
-                jComboBoxSexo.setSelectedIndex(1);
-            break;
-        
-        }
-        switch(atirador.getClasse()){
-            case 'N':
-                jComboBoxClasse.setSelectedIndex(0);
-            break;
-            case 'P':
-                jComboBoxClasse.setSelectedIndex(1);
-            break;
-        }
-        switch(atirador.getPosicao()){
-            case 'M':
-                jComboBoxPosicao.setSelectedIndex(0);
-            break;
-            case 'F':
-                jComboBoxPosicao.setSelectedIndex(1);
-            break;
-        
-        }
-        
+        this.reloadMainList();
     }
-    
+}//GEN-LAST:event_jButtonExcluirActionPerformed
+
+private void jButtonPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisaActionPerformed
+    this.dinamicSearch();
+
+}//GEN-LAST:event_jButtonPesquisaActionPerformed
+
+    private void jListAtiradoresActionPerformed(ListSelectionEvent evt) {
+        //this.fillFields();
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -990,29 +989,146 @@ private void jListAtiradoresActionPerformed(ListSelectionEvent evt) {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
                 new CadastroAtirador().setVisible(true);
             }
         });
-        
-        
+
+
 
     }
-    public Object getSelected(JList list){
-        return list.getModel().getElementAt(list.getSelectedIndex());
+
+    public Object getSelected(JList list) {
+        if (list.getSelectedIndex() != -1) {
+            return list.getModel().getElementAt(list.getSelectedIndex());
+        } else {
+            return null;
+        }
     }
-    
-    public void setList(JList list, ArrayList<Atirador> itens){
+
+    public void setList(JList list, ArrayList<Atirador> itens) {
         CustomListCellRenderer renderer = new CustomListCellRenderer();
         list.setCellRenderer(renderer);
         DefaultListModel lista = new DefaultListModel();
-        for(Atirador a : itens){
+        for (Atirador a : itens) {
             lista.addElement(a);
         }
         list.setModel(lista);
     }
-    
-    public void setEditable(boolean op){
+
+    public void fillFields() {
+
+        if (jListAtiradores.getSelectedIndex() != -1) {
+            Atirador atirador = (Atirador) getSelected(jListAtiradores);
+            this.clearFields();
+            if (atirador.getProvas() != null) {
+                for (Prova p : atirador.getProvas()) {
+                    jModelProvas.addElement(p);
+                    jComboBoxProva.addItem(p);
+                }
+                for (Prova p : atirador.getProvas()) {
+                    
+                }
+            }
+            if (atirador.getPremiacoes() != null) {
+                for (Premiacao p : atirador.getPremiacoes()) {
+                    jModelPremiacao.addElement(p);
+                }
+            }
+            if (atirador.getTelefones() != null) {
+                for (String s : atirador.getTelefones()) {
+                    jModelTelefones.addElement(s);
+                }
+            }
+            if (atirador.getMelhoresSequencias() != null) {
+                for (Sequencia s : atirador.getMelhoresSequencias()) {
+                    jModelSequencias.addElement(s);
+                }
+
+            }
+
+            if (atirador.getDataNascimento() == null) {
+                jTextoDataNasc.setText("");
+            } else {
+                jTextoDataNasc.setText(dateFormat.format(atirador.getDataNascimento()));
+            }
+
+            jTextoNome.setText(atirador.getNome());
+            jTextoAltura.setText(String.valueOf(atirador.getAltura()));
+            jTextoCpf.setText(atirador.getCpf());
+            jTextoDataNasc.setText(dateFormat.format(atirador.getDataNascimento()));
+            jTextoNomeMae.setText(atirador.getNomeMae());
+            jTextoNomePai.setText(atirador.getNomePai());
+            jTextoRg.setText(atirador.getRg());
+            jTextoPeso.setText(String.valueOf(atirador.getPeso()));
+            jTextoLogradouro.setText(atirador.getEndereco().getLogradouro());
+            jTextoComplemento.setText(atirador.getEndereco().getComplemento());
+            jTextoCidade.setText(atirador.getEndereco().getCidade());
+            jTextoPais.setText(atirador.getEndereco().getPais());
+            jTextoBairro.setText(atirador.getEndereco().getBairro());
+            jTextoCep.setText(atirador.getEndereco().getCep());
+            jTextoEstado.setText(atirador.getEndereco().getEstado());
+            jTextoNumero.setText(atirador.getEndereco().getNumero());
+            jTextoAno.setText("");
+            jTextoArma.setText("");
+            jTextoDistancia.setText("");
+            jTextoEvento.setText("");
+            jTextoModo.setText("");
+            jTextoTelefone.setText("");
+            jTextoTitulo.setText("");
+            switch (atirador.getSexo()) {
+                case 'M':
+                    jComboBoxSexo.setSelectedIndex(0);
+                    break;
+                case 'F':
+                    jComboBoxSexo.setSelectedIndex(1);
+                    break;
+
+            }
+            switch (atirador.getClasse()) {
+                case 'N':
+                    jComboBoxClasse.setSelectedIndex(0);
+                    break;
+                case 'P':
+                    jComboBoxClasse.setSelectedIndex(1);
+                    break;
+            }
+            switch (atirador.getPosicao()) {
+                case 'D':
+                    jComboBoxPosicao.setSelectedIndex(0);
+                    break;
+                case 'C':
+                    jComboBoxPosicao.setSelectedIndex(1);
+                    break;
+
+            }
+            this.atiradorSelecionado = atirador;
+            this.saveMode = 0;
+        }
+
+    }
+
+    public void dinamicSearch() {
+        ArrayList<Atirador> atiradores = new ArrayList<Atirador>();
+        if (jComboBoxPesquisa.getSelectedIndex() == 0) {
+            try {
+                atiradores = controle.listaAtirador(jTextoPesquisa.getText());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao buscar a Lista!");
+            }
+        } else {
+            try {
+                atiradores = controle.listaAtirador(controle.getProvas(jTextoPesquisa.getText()));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao buscar a Lista!");
+            }
+
+        }
+        reloadMainList(atiradores);
+    }
+
+    public void setEditable(boolean op) {
         jTextoNome.setEditable(op);
         jTextoAltura.setEditable(op);
         jTextoCpf.setEditable(op);
@@ -1038,22 +1154,30 @@ private void jListAtiradoresActionPerformed(ListSelectionEvent evt) {
         jTextoTitulo.setEditable(op);
         jTextoPontos.setEditable(op);
     }
-    
-    public void reloadMainList(){
-        jModelAtiradores = new DefaultListModel();
-        for(Atirador at : controle.listaAtirador()){
-        jModelAtiradores.addElement(at);
-        jListAtiradores.setModel(jModelAtiradores);
+
+    public void reloadMainList() {
+        jModelAtiradores.clear();
+        for (Atirador at : controle.listaAtirador()) {
+            jModelAtiradores.addElement(at);
+            jListAtiradores.setModel(jModelAtiradores);
         }
-        
-        
     }
-    
-    private void initMoreComponents(){
+
+    public void reloadMainList(ArrayList<Atirador> list) {
+        jModelAtiradores.clear();
+        for (Atirador at : list) {
+            jModelAtiradores.addElement(at);
+            jListAtiradores.setModel(jModelAtiradores);
+        }
+    }
+
+    private void initMoreComponents() {
         this.setEditable(false);
+        this.dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         CustomListCellRenderer renderer = new CustomListCellRenderer();
         emptyModel = new DefaultComboBoxModel();
         jListAtiradores.setCellRenderer(renderer);
+        this.atiradorSelecionado = null;
         this.jModelTelefones = new DefaultListModel();
         this.jListTelefones.setModel(jModelTelefones);
         this.jModelDefault = new DefaultListModel();
@@ -1069,32 +1193,32 @@ private void jListAtiradoresActionPerformed(ListSelectionEvent evt) {
         this.preparedEntry();
         this.reloadMainList();
         jListAtiradores.addListSelectionListener(new ListSelectionListener() {
+
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 jListAtiradoresActionPerformed(e);
             }
         });
     }
-    
-    
-    public void preparedEntry(){
+
+    public void preparedEntry() {
         Atirador atirador = new Atirador(jTextoNome.getText());
         ArrayList<Prova> provas = new ArrayList<Prova>();
         ArrayList<Sequencia> sequencias = new ArrayList<Sequencia>();
         ArrayList<Premiacao> premiacoes = new ArrayList<Premiacao>();
         Endereco endereco = new Endereco();
         ArrayList<String> telefones = new ArrayList<String>();
-        
+
         Prova p = new Prova();
         p.setArma("Shotgun");
         p.setDistancia(20);
         p.setModo("Prone");
         provas.add(p);
-        Sequencia s = new Sequencia(p,"Olimpíadas de Athenas - 2006", 1350);
+        Sequencia s = new Sequencia(p, "Olimpíadas de Athenas - 2006", 1350);
         sequencias.add(s);
         Premiacao pm = new Premiacao("Campeão Olímpico", 2006);
         premiacoes.add(pm);
-        
+
         endereco.setBairro("Gama");
         endereco.setCep("72000-000");
         endereco.setCidade("Brasília");
@@ -1103,19 +1227,19 @@ private void jListAtiradoresActionPerformed(ListSelectionEvent evt) {
         endereco.setLogradouro("Qr. 32 Conj. F");
         endereco.setNumero("3");
         endereco.setPais("Brasil");
-        
+
         telefones.add("61 3333-4444");
         telefones.add("61 3555-4444");
-        
+
         atirador.setAltura(1.80);
         atirador.setPeso(70.0);
         atirador.setClasse('N');
         atirador.setSexo('M');
         atirador.setPosicao('D');
         atirador.setCpf("111.111.111-11");
-        try{
-        atirador.setDataNascimento(dateFormat.parse("12/12/2012"));
-        }catch(ParseException e){
+        try {
+            atirador.setDataNascimento(dateFormat.parse("12/12/2012"));
+        } catch (ParseException e) {
             atirador.setDataNascimento(null);
         }
         atirador.setEndereco(endereco);
@@ -1127,23 +1251,22 @@ private void jListAtiradoresActionPerformed(ListSelectionEvent evt) {
         atirador.setProvas(provas);
         atirador.setRg("333.333-3");
         atirador.setTelefones(telefones);
-        
+
         controle.addAtirador(atirador);
     }
-    
-    public void reloadComboProva(){
-    emptyModel = new DefaultComboBoxModel();
-    jComboBoxProva.setModel(emptyModel);
-    ArrayList<Prova> pList = new ArrayList();
-    for(int i =0; i<jModelProvas.size();i++){
-    pList.add((Prova)jModelProvas.get(i));
+
+    public void reloadComboProva() {
+        jComboBoxProva.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nenhuma" }));
+        ArrayList<Prova> pList = new ArrayList();
+        for (int i = 0; i < jModelProvas.size(); i++) {
+            pList.add((Prova) jModelProvas.get(i));
+        }
+        for (Prova p : pList) {
+            jComboBoxProva.addItem(p);
+        }
     }
-    for(Prova p: pList){
-    jComboBoxProva.addItem(p);
-    }
-    }
-    
-    public void clearFields(){
+
+    public void clearFields() {
         jTextoNome.setText("");
         jTextoAltura.setText("0.0");
         jTextoCpf.setText("");
@@ -1160,6 +1283,7 @@ private void jListAtiradoresActionPerformed(ListSelectionEvent evt) {
         jTextoCep.setText("");
         jTextoEstado.setText("");
         jTextoNumero.setText("");
+        jComboBoxProva.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nenhuma" }));
         jComboBoxSexo.setSelectedIndex(0);
         jComboBoxProva.setSelectedIndex(0);
         jComboBoxClasse.setSelectedIndex(0);
@@ -1176,139 +1300,142 @@ private void jListAtiradoresActionPerformed(ListSelectionEvent evt) {
         jModelTelefones.clear();
         jModelProvas.clear();
         jTextoPontos.setText("0");
-        
+
     }
-    
-    public boolean validateFields(){
-        if(jTextoNome.getText().trim().length() < 3){
+
+    public boolean validateFields() {
+        if (jTextoNome.getText().trim().length() < 3) {
             JOptionPane.showMessageDialog(null, "O campo Nome deve ser maior que 3 caracteres!");
             return false;
         }
-        if(jTextoRg.getText().trim().length() <= 0){
+        if (jTextoRg.getText().trim().length() <= 0) {
             JOptionPane.showMessageDialog(null, "O campo Rg não pode ser vazio!");
             return false;
         }
-        if(jTextoCpf.getText().trim().length() < 3){
+        if (jTextoCpf.getText().trim().length() < 3) {
             JOptionPane.showMessageDialog(null, "O campo CPF não pode ser vazio!");
             return false;
         }
-        if(jTextoAltura.getText().trim().length() <= 0){
+        if (jTextoAltura.getText().trim().length() <= 0) {
             JOptionPane.showMessageDialog(null, "O campo Altura não pode ser vazio!");
             return false;
-        }else{
-            try{
-            Double.parseDouble(jTextoAltura.getText());
-            }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "O campo Ano deve ser real!");
-            return false;
+        } else {
+            try {
+                Double.parseDouble(jTextoAltura.getText());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "O campo Ano deve ser real!");
+                return false;
             }
         }
-        if(jTextoPeso.getText().trim().length() <= 0){
+        if (jTextoPeso.getText().trim().length() <= 0) {
             JOptionPane.showMessageDialog(null, "O campo Peso não pode ser vazio!");
             return false;
-        }else{
-            try{
-            Double.parseDouble(jTextoPeso.getText());
-            }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "O campo Peso deve ser real!");
-            return false;
+        } else {
+            try {
+                Double.parseDouble(jTextoPeso.getText());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "O campo Peso deve ser real!");
+                return false;
             }
         }
-        if(jTextoDataNasc.getText().trim().length() <= 0){
+        if (jTextoDataNasc.getText().trim().length() <= 0) {
             JOptionPane.showMessageDialog(null, "O campo Data Nasc. não pode ser vazio!");
             return false;
-        }else{
-        try{
-            dateFormat.parse(jTextoDataNasc.getText());
-        }catch(ParseException e){
-            JOptionPane.showMessageDialog(null, "A data informada é invalida!");
-            return false;    
-        }
+        } else {
+            try {
+                dateFormat.parse(jTextoDataNasc.getText());
+            } catch (ParseException e) {
+                JOptionPane.showMessageDialog(null, "A data informada é invalida!");
+                return false;
+            }
         }
         return true;
     }
-    
-    public boolean validateAddTelefones(){
-        if(jTextoTelefone.getText().trim().length() <= 0){
+
+    public boolean validateAddTelefones() {
+        if (jTextoTelefone.getText().trim().length() <= 0) {
             JOptionPane.showMessageDialog(null, "O campo Telefone não pode ser vazio!");
             return false;
         }
         return true;
     }
-    public boolean validateAddProvas(){
-        if(jTextoDistancia.getText().trim().length() <= 0){
+
+    public boolean validateAddProvas() {
+        if (jTextoDistancia.getText().trim().length() <= 0) {
 
             JOptionPane.showMessageDialog(null, "O campo Distancia não pode ser vazio!");
             return false;
-        }else{
-            try{
-            Integer.parseInt(jTextoDistancia.getText());
-            }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "O campo Distancia deve ser inteiro, em metros!");
-            return false;
+        } else {
+            try {
+                Integer.parseInt(jTextoDistancia.getText());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "O campo Distancia deve ser inteiro, em metros!");
+                return false;
             }
-        
+
         }
-        if(jTextoArma.getText().trim().length() <= 0){
+        if (jTextoArma.getText().trim().length() <= 0) {
             JOptionPane.showMessageDialog(null, "O campo Arma não pode ser vazio!");
             return false;
         }
-        if(jTextoModo.getText().trim().length() <= 0){
+        if (jTextoModo.getText().trim().length() <= 0) {
             JOptionPane.showMessageDialog(null, "O campo Modo não pode ser vazio!");
             return false;
         }
-        
+
         return true;
     }
-    public boolean validateAddPremiacoes(){
-        if(jTextoTitulo.getText().trim().length() <= 0){
+
+    public boolean validateAddPremiacoes() {
+        if (jTextoTitulo.getText().trim().length() <= 0) {
             JOptionPane.showMessageDialog(null, "O campo Titulo não pode ser vazio!");
             return false;
         }
-        if(jTextoAno.getText().trim().length() <= 0){
+        if (jTextoAno.getText().trim().length() <= 0) {
             JOptionPane.showMessageDialog(null, "O campo Ano não pode ser vazio!");
             return false;
-        }else{
-            try{
-            Integer.parseInt(jTextoAno.getText());
-            }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "O campo Ano deve ser inteiro!");
-            return false;
+        } else {
+            try {
+                Integer.parseInt(jTextoAno.getText());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "O campo Ano deve ser inteiro!");
+                return false;
             }
         }
         return true;
     }
-    public boolean validateAddMelhoresSequencias(){
-        if(jTextoEvento.getText().trim().length() <= 0){
+
+    public boolean validateAddMelhoresSequencias() {
+        if (jTextoEvento.getText().trim().length() <= 0) {
             JOptionPane.showMessageDialog(null, "O campo Evento não pode ser vazio!");
             return false;
         }
-        if(jTextoPontos.getText().trim().length() <= 0){
+        if (jTextoPontos.getText().trim().length() <= 0) {
             JOptionPane.showMessageDialog(null, "O campo Pontos não pode ser vazio!");
             return false;
-        }else{
-            try{
-            Integer.parseInt(jTextoPontos.getText());
-            }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "O campo Pontos deve ser inteiro!");
-            return false;
+        } else {
+            try {
+                Integer.parseInt(jTextoPontos.getText());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "O campo Pontos deve ser inteiro!");
+                return false;
             }
         }
-        try{
-            if(jComboBoxProva.getSelectedItem() != null){
-            jModelProvas.contains((Prova)jComboBoxProva.getSelectedItem());
-            }else {
-            JOptionPane.showMessageDialog(null, "A prova selecionada não está contida na lista de provas!");
-            return false;
+        try {
+            if (jComboBoxProva.getSelectedItem() != null) {
+                jModelProvas.contains((Prova) jComboBoxProva.getSelectedItem());
+            } else {
+                JOptionPane.showMessageDialog(null, "A prova selecionada não está contida na lista de provas!");
+                return false;
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "A prova selecionada não está contida na lista de provas!");
             return false;
         }
         return true;
     }
-    
-    public void reloadLists(){
+
+    public void reloadLists() {
         jListProvas.setModel(jModelProvas);
         jListPremiacao.setModel(jModelPremiacao);
         jListSequencias.setModel(jModelSequencias);
@@ -1316,9 +1443,6 @@ private void jListAtiradoresActionPerformed(ListSelectionEvent evt) {
         jListTelefones.setModel(jModelTelefones);
 
     }
-    
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAddPremiacao;
     private javax.swing.JButton jButtonAddProva;
@@ -1326,13 +1450,16 @@ private void jListAtiradoresActionPerformed(ListSelectionEvent evt) {
     private javax.swing.JButton jButtonAddTelefone;
     private javax.swing.JButton jButtonAdicionar;
     private javax.swing.JButton jButtonEditar;
+    private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonLimpar;
+    private javax.swing.JButton jButtonPesquisa;
     private javax.swing.JButton jButtonRemovePremiacao;
     private javax.swing.JButton jButtonRemoveProva;
     private javax.swing.JButton jButtonRemoveSequencia;
     private javax.swing.JButton jButtonRemoveTelefone;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JComboBox jComboBoxClasse;
+    private javax.swing.JComboBox jComboBoxPesquisa;
     private javax.swing.JComboBox jComboBoxPosicao;
     private javax.swing.JComboBox jComboBoxProva;
     private javax.swing.JComboBox jComboBoxSexo;
@@ -1402,6 +1529,7 @@ private void jListAtiradoresActionPerformed(ListSelectionEvent evt) {
     private javax.swing.JTextField jTextoNumero;
     private javax.swing.JTextField jTextoPais;
     private javax.swing.JTextField jTextoPeso;
+    private javax.swing.JTextField jTextoPesquisa;
     private javax.swing.JTextField jTextoPontos;
     private javax.swing.JTextField jTextoRg;
     private javax.swing.JTextField jTextoTelefone;

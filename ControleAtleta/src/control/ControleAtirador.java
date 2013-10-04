@@ -24,11 +24,34 @@ public class ControleAtirador {
         }
         return null;
     }
-    public ArrayList<Atirador> listaAtirador(Prova prova){
-        ArrayList<Atirador> atiradores = null;
+    
+    public ArrayList<Prova> getProvas(String query){
+        ArrayList<Prova> provas = new ArrayList<Prova>();
+        
         for(Atirador a : listaAtirador){
-        if(a.getProvas().contains(prova)){
+
+            for(Prova p : a.getProvas()){
+                if(p.toString().contains(query)){
+                    if(!provas.contains(p)){
+                        provas.add(p);
+                        
+                    }
+                }
+            }
+            
+        }
+        
+        
+        return provas;
+    }
+    
+    public ArrayList<Atirador> listaAtirador(ArrayList<Prova> provas){
+        ArrayList<Atirador> atiradores = new ArrayList<Atirador>();
+        for(Prova p : provas){
+        for(Atirador a : listaAtirador){
+        if(a.getProvas().contains(p)){
             atiradores.add(a);
+        }
         }
         }
         return atiradores;
@@ -37,9 +60,9 @@ public class ControleAtirador {
         return this.listaAtirador;
     }
     public ArrayList<Atirador> listaAtirador(String nome){
-        ArrayList<Atirador> atiradores = null;
+        ArrayList<Atirador> atiradores = new ArrayList<Atirador>();
         for(Atirador a : listaAtirador){
-            if(a.getNome().contains(nome)){
+            if(a.getNome().contains((CharSequence)nome)){
                 atiradores.add(a);
             }
         }
