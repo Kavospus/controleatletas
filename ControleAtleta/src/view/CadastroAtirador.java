@@ -1323,7 +1323,7 @@ private void jButtonPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//G
             try {
                 Double.parseDouble(jTextoAltura.getText());
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "O campo Ano deve ser real!");
+                JOptionPane.showMessageDialog(null, "O campo Altura deve ser real!");
                 return false;
             }
         }
